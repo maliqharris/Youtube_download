@@ -71,20 +71,23 @@ while True:
         # loop keeps going 
 
 # if the user inputed output path 
-
 if args.output:
     try:
-        # if path real 
-        if os.path.exists(os.path.dirname(args.output)):
-            # path = path made
-            path = os.path.dirname(args.output)
+        output_dir = os.path.dirname(args.output)
+        # if the path real
+        if os.path.exists(output_dir):
+            # and  if path is okay to write
+            if os.access(output_dir, os.W_OK):
+                path = output_dir
+            else:
+                raise PermissionError
         else:
-            # if path bad tell them and path is current
-            print(f"{os.path.dirname(args.output)} is not a valid path, downloading to current directory.")
+            # If the path bad, use the current directory
+            print(f"{output_dir} is not a valid path. Downloading to the current directory.")
             path = os.getcwd()
     except PermissionError:
-        print(f"No permision to write to path: {args.output}")
-        print("Choose a writble path")
+        print(f"You dont have permission to write to path: {args.output}!")
+        print("Choose a good path please.")
         exit()
 else:
     # path is currnet
