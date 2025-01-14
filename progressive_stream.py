@@ -1,4 +1,4 @@
-
+from bar import bar
 def download_progressive(yt,dl2, path):
     
     # stream = dl.streams.get_by_tag(tag of resolution selected)
@@ -6,6 +6,8 @@ def download_progressive(yt,dl2, path):
     # print(f"{stream}")
     
     print("downloading...")
+    
+    bar(stream, path, f"{yt.title}.mp4")
     stream.download(output_path=path)
     print(f"{yt.title}.mp4 downloaded")
     exit()

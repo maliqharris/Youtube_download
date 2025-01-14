@@ -4,9 +4,12 @@ from combo_stream import rest_o_streams, combine_streams
 from progressive_stream import download_progressive
 import os
 
+# from image import show_thumbnail
+
 
 def is_it_youtube(url):
-    return "youtube" in url.lower()
+    return "youtu.be" or "youtube" in url.lower()
+
 
 
 
@@ -30,7 +33,7 @@ if not is_it_youtube(args.url):
 #Make object 
 yt = YouTube(f"{args.url}")
 
-
+# show_thumbnail(yt.thumbnail_url)
 
 
 

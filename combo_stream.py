@@ -2,7 +2,7 @@
 from pytubefix import YouTube
 import subprocess
 import os
-
+from bar import bar
 
 
 
@@ -42,7 +42,9 @@ def combine_streams(yt, res, path):
             return
 
         vid_real = vid.download(output_path=path, filename="video_temp.mp4")
+        bar(vid, path, "video_temp.mp4")
         sound_real = sound.download(output_path=path, filename="sound_temp.mp4")
+        bar(sound, path, "sound_temp.mp4")
         real_title = os.path.join(path, f"{yt.title}.mp4")
 
         try:
@@ -52,7 +54,7 @@ def combine_streams(yt, res, path):
             subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
             os.remove(vid_real)
             os.remove(sound_real)
-            print(f"Downloaded {real_title}")
+            print(f"Downloaded {yt.title} {real_title}")
         except Exception as e:
             print(f"Error merging: {e}")
         
