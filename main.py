@@ -10,7 +10,7 @@ import os
 
 # Check if url is plausable 
 def is_it_youtube(url):
-    return "youtu.be" or "youtube" in url.lower()
+    return "youtu.be" in url.lower() or "youtube" in url.lower()
 
 
 
