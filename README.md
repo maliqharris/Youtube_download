@@ -38,5 +38,7 @@ python main.py --url "link-to-youtube-video" --resolution "resolution_you_want_f
 
 ## Use python main.py help for a reminder
 
+# If using mac os try brew install ffmpeg if getting error not found
+
 
 
