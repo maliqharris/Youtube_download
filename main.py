@@ -1,4 +1,4 @@
-from pytubefix import YouTube
+from pytubefix import YouTube, exceptions
 import argparse
 from combo_stream import rest_o_streams, combine_streams
 from progressive_stream import download_progressive
@@ -16,6 +16,7 @@ def is_it_youtube(url):
 
 
 
+
 parser = argparse.ArgumentParser()
 #req argument
 parser.add_argument("--url", help="The Url of the youtube video, will give prompts on what resolutions are avaliable.")
@@ -26,8 +27,21 @@ parser.add_argument("--resolution", required=False, help="The resolution you wan
 args = parser.parse_args()
 
 # if not a plausable url then tell user and exit
-if not is_it_youtube(args.url):
-    print("The Url doesnt even come from youtube! This is a youtube downloader! Try again")
+if not args.url or not is_it_youtube(args.url):
+    print("The URL doesn't even come from YouTube! This is a YouTube downloader! Try again.")
+    exit()
+
+try:
+    # Create the YouTube object
+    yt = YouTube(args.url)
+    video_title = yt.title  
+# This will except if the video is no good
+except exceptions.VideoUnavailable:
+    print("Error: URL BAD!")
+    exit()
+# When in doubt except out, catch the rest
+except Exception as e:
+    print(f"An  error occurred!: {e}")
     exit()
 
 
@@ -56,15 +70,25 @@ while True:
         print("Wrong input! Enter Y or N!")
         # loop keeps going 
 
-# if the user inputed output path and that path is real then set path variable
-if args.output and os.path.exists(os.path.dirname(args.output)):
-    path = os.path.dirname(args.output)
-else:
-    # if user inputed output path is not a real path then tell the user and download to current dir
-    if args.output:
-        print(f"{os.path.dirname(args.output)} is not a working path,  downloading to current dir")
-    path = os.getcwd() 
+# if the user inputed output path 
 
+if args.output:
+    try:
+        # if path real 
+        if os.path.exists(os.path.dirname(args.output)):
+            # path = path made
+            path = os.path.dirname(args.output)
+        else:
+            # if path bad tell them and path is current
+            print(f"{os.path.dirname(args.output)} is not a valid path, downloading to current directory.")
+            path = os.getcwd()
+    except PermissionError:
+        print(f"No permision to write to path: {args.output}")
+        print("Choose a writble path")
+        exit()
+else:
+    # path is currnet
+    path = os.getcwd()
 
     
 

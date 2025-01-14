@@ -1,5 +1,6 @@
 from tqdm import tqdm
 import os
+from urllib.error import URLError
 
 def bar(stream, path, filename):
     # Open the file in write mode
