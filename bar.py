@@ -9,5 +9,7 @@ def bar(stream, path, filename):
         with tqdm(total=stream.filesize, unit='B', unit_scale=True, desc=filename) as pbar:
             # Use iter_chunks to download in chunks
             for chunk in stream.iter_chunks():
-                f.write(chunk)  # Chunk to file
-                pbar.update(len(chunk))  #keep updating chunk w file size
+                # Chunk to file
+                f.write(chunk)  
+                #keep updating chunk w file size
+                pbar.update(len(chunk))  

@@ -70,13 +70,14 @@ while True:
         print("Wrong input! Enter Y or N!")
         # loop keeps going 
 
+
 # if the user inputed output path 
 if args.output:
     try:
         output_dir = os.path.dirname(args.output)
         # if the path real
         if os.path.exists(output_dir):
-            # and  if path is okay to write
+            # and if path is okay to wrte
             if os.access(output_dir, os.W_OK):
                 path = output_dir
             else:
@@ -132,14 +133,19 @@ for x in yt.streams:
         list_o_good.append(x.resolution)
     # if no progresive streams then tell user that and ask if they would like to check the non progressive streams
     if len(list_o_good) == 0:
-        confirm0 = input("Sorry, no videos were found for quick download! Would you like to check for other video types? Y/N").strip().upper()
-        # If no then exit
-        if confirm0 == "N":
-            print("Okay, exiting application")
-            exit()
-        # if yes then call rest_o_streams
-        elif confirm0 == "Y":
-            rest_o_streams(yt, path)
+        while True:
+            confirm0 = input("Sorry, no videos were found for quick download! Would you like to check for other video types? Y/N").strip().upper()
+            # If no then exit
+            if confirm0 == "N":
+                print("Okay, exiting application")
+                exit()
+            # if yes then call rest_o_streams
+            elif confirm0 == "Y":
+                rest_o_streams(yt, path)
+                break
+            else:
+                print("Not Y or N! Try again")
+
             
 
 
@@ -148,16 +154,22 @@ for x in yt.streams:
     elif len(list_o_good) == 1:
         # tell user that
         print(f"The only video resolution found for quick download is {x.resolution}")
-        # ask if they would like to look for more streamns
-        confirm1 = input(f"Would you like to download or would you like to look for other resolutions avaliable to be converted? 'Y' for download in this resolution or 'N' for search for more").strip().upper()
-        # if yes then d
-        if confirm1 == "Y":
-            # init resolution chosen and call download_progressive
-            dl2 = x.resolution
-            download_progressive(yt,dl2, path)
-        # if no then call rest_o_streams
-        elif confirm1 == "N":
-            rest_o_streams(yt, path) 
+        while True:
+            # ask if they would like to look for more streamns
+            confirm1 = input(f"Would you like to download or would you like to look for other resolutions avaliable to be converted? 'Y' for download in this resolution or 'N' for search for more").strip().upper()
+            # if yes then d
+            if confirm1 == "Y":
+                # init resolution chosen and call download_progressive
+                dl2 = x.resolution
+                download_progressive(yt,dl2, path)
+                break
+            # if no then call rest_o_streams
+            elif confirm1 == "N":
+                rest_o_streams(yt, path) 
+                break
+            else:
+                print("Not Y or N! Try again")
+
             
 
 
@@ -165,17 +177,22 @@ for x in yt.streams:
     elif len(list_o_good) > 1: 
         # teel user that and show the progressive streams
         print(f"the avaliable resolutions for quick download are {list_o_good}")
-        # ask if they would want to dl one of these progressive stream resolutions or search for more res that are non progre
-        confirm2 = input("Would you like to download one of these resolutions? or Search for more resolutions? Y for download one of these resolutions, N for search for more  ").strip().upper()
-        # if yes 
-        if confirm2 == "Y":
-            # init the resolution  and pass to download_progressive
-            dl2 = input("Type one of the avaliable resolutions to convert and download, for example '360p' ")
-            download_progressive(yt, dl2, path)
-        # if no 
-        elif confirm2 == "N":
-            # call rest_o_streams
-            rest_o_streams(yt, path)
+        while True:
+
+            # ask if they would want to dl one of these progressive stream resolutions or search for more res that are non progre
+            confirm2 = input("Would you like to download one of these resolutions? or Search for more resolutions? Y for download one of these resolutions, N for search for more  ").strip().upper()
+            # if yes 
+            if confirm2 == "Y":
+                # init the resolution  and pass to download_progressive
+                dl2 = input("Type one of the avaliable resolutions to convert and download, for example '360p' ")
+                download_progressive(yt, dl2, path)
+                break
+            # if no 
+            elif confirm2 == "N":
+                # call rest_o_streams
+                rest_o_streams(yt, path)
+            else:
+                print("Not Y or N! Try again")
 
             
             
